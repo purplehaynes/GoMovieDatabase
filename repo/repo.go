@@ -2,19 +2,47 @@ package repo
 
 import (
 	"GoMovieDB/entities"
-	//"encoding/json"
-	//"fmt"
-	//"io/ioutil"
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
 )
 
 type MVStruct struct {
 	Movies []entities.Movie
 }
 
-func (moov *MVStruct) PostToDb (movie entities.Movie) {
-	moov.Movies = append(moov.Movies, movie)
-}
+// func (moov *MVStruct) PostToDb (movie entities.Movie) {
+// 	moov.Movies = append(moov.Movies, movie)
+// }
 
+func CreateNewMovie (film entities.Movie) (MVStruct, error) {
+
+	output, err := ioutil.ReadFile("moviedb.json")
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	film.SetId()
+
+	db := MVStruct{}
+	err = json.Unmarshal(output, &db)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	db.Movies = append(db.Movies, film)
+
+
+	input, err := json.MarshalIndent(db, "", "	")
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	err = ioutil.WriteFile("moviedb.json", input, 0644)
+
+	return db, err
+
+}
 
 
 // type FileConverter struct {

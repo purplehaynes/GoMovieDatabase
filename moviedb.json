@@ -1,7 +1,7 @@
 {
 	"Movies": [
 		{
-			"Id": "e6180f5a-eda1-47ee-8f81-949b09cba296",
+			"Id": "927916b0-7999-41eb-a449-460493e72acf",
 			"Title": "Forgetting Sarah Marshall",
 			"Genre": [
 				"Comedy",
@@ -16,6 +16,40 @@
 				"Kristen Bell"
 			],
 			"Rating": 10
+		},
+		{
+			"Id": "bf8ee333-b629-4248-ac4e-3498dafe144b",
+			"Title": "Free Guy",
+			"Genre": [
+				"Comedy",
+				"Action"
+			],
+			"Description": "An NPC in a video game becomes aware of his existance and starts a revolution in the gaming world.",
+			"Director": "Shawn Levy",
+			"Actors": [
+				"Ryan Reynolds",
+				"Joe Keery",
+				"Jodie Comer",
+				"Taika Waititi"
+			],
+			"Rating": 7.4
+		},
+		{
+			"Id": "4f0cfecd-9519-4608-b453-e3bb46830a8d",
+			"Title": "Kingsman: The Secret Service",
+			"Genre": [
+				"Action",
+				"Comedy"
+			],
+			"Description": "A spy organisation recruits a promising street kid into the agency's training program, while a global threat emerges from a twisted tech genius.",
+			"Director": "Matthew Vaughn",
+			"Actors": [
+				"Taron Egerton",
+				"Colin Firth",
+				"Samuel L. Jackson",
+				"Mark Strong"
+			],
+			"Rating": 7.7
 		}
 	]
 }

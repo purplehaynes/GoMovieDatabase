@@ -5,7 +5,6 @@ import (
 	"GoMovieDB/repo"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"net/http"
 )
 
@@ -17,17 +16,13 @@ func PostNewMovie(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 	}
 
-	mv.SetId()
-
-	db := repo.MVStruct{}
-	db.PostToDb(mv)
-	
-	jsonBytes, err := json.MarshalIndent(db, "", "	")
+	addMovie, err := repo.CreateNewMovie(mv)
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	err = ioutil.WriteFile("moviedb.json", jsonBytes, 0644)
+	
+	jsonBytes, err := json.MarshalIndent(addMovie, "", "	")
 	if err != nil {
 		fmt.Println(err)
 	}
