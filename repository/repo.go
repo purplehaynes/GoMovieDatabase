@@ -35,7 +35,6 @@ func (r Repo) CreateNewMovie(film entities.Movie) error {
 	if err != nil {
 		return err
 	}
-	
 
 	for _, v := range mv.Movies { 
 		if v.Title == film.Title {
@@ -54,12 +53,8 @@ func (r Repo) CreateNewMovie(film entities.Movie) error {
 	if err != nil {
 		return err
 	}
-
 	return nil
-
 }
-
-
 
 func (r Repo) ReadAll() (MVStruct, error) {
 	mv := MVStruct{}
@@ -67,8 +62,7 @@ func (r Repo) ReadAll() (MVStruct, error) {
 	file, err := ioutil.ReadFile(r.Filename)
 	if err != nil {
 		return mv, errors.New("data field empty")
-	}
-	
+	}	
 
 	err = json.Unmarshal(file, &mv)
 
@@ -76,11 +70,9 @@ func (r Repo) ReadAll() (MVStruct, error) {
 
 }
 
-
-func (r Repo) GetMovieId(id string) (entities.Movie, error) {
+func (r Repo) GetMovieId(id string) (*entities.Movie, error) {
 
 	mv := MVStruct{}
-	movie := entities.Movie{}
 
 	file, err := ioutil.ReadFile(r.Filename)
 	if err != nil {
@@ -89,17 +81,17 @@ func (r Repo) GetMovieId(id string) (entities.Movie, error) {
 
 	err = json.Unmarshal(file, &mv)
 	if err != nil {
-		return movie, err
+		return nil, err
 	}
 
 	for _, v := range mv.Movies {
 		if v.Id == id {
-			return v, nil
+			return &v, nil
 		}
 
 	}
 
-	return movie, errors.New("movie not found")
+	return nil, errors.New("movie not found")
 
 }
 

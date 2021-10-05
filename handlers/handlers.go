@@ -21,7 +21,7 @@ func NewMovieHandler(s service.Service) MovieHandler {
 }
 
 
-func (mh MovieHandler) PostMovieHandler(w http.ResponseWriter, r *http.Request) {
+func (mh MovieHandler) CreateMovie(w http.ResponseWriter, r *http.Request) {
 	mv := entities.Movie{}
 
 	err := json.NewDecoder(r.Body).Decode(&mv)
@@ -45,7 +45,7 @@ func (mh MovieHandler) PostMovieHandler(w http.ResponseWriter, r *http.Request) 
 
 }
 
-func (mh MovieHandler) ReadAll(w http.ResponseWriter, r *http.Request) {
+func (mh MovieHandler) GetAllMovies(w http.ResponseWriter, r *http.Request) {
 	readDB, err := mh.Svc.ReadAll()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -62,28 +62,32 @@ func (mh MovieHandler) ReadAll(w http.ResponseWriter, r *http.Request) {
 	w.Write(readRequest)
 }
 
+type ErrorResponse struct {
+	Error string `json:"Error"`
+}
 
-
-func (mh MovieHandler) GetMovieId(w http.ResponseWriter, r *http.Request) {
+func (mh MovieHandler) GetByMovieId(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["Id"]
 
-	getID, err := mh.Svc.GetMovieId(id)
+	getID, err := mh.Svc.GetByMovieId(id)
 	if err != nil {
 		switch err.Error() {
 		case "movie not found":
 			http.Error(w, err.Error(), http.StatusNotFound)
+			return
 		}
 	}
 
-	foundID, err := json.MarshalIndent(getID, "", "	")
+	movie, err := json.MarshalIndent(getID, "", "	")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
 	}
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	_, _ = w.Write(foundID)
+	_, _ = w.Write(movie)
 }
 
 

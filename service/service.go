@@ -39,10 +39,10 @@ func (s Service) ReadAll() (repo.MVStruct, error) {
 }
 
 
-func (s Service) GetMovieId(id string) (entities.Movie, error) {
+func (s Service) GetByMovieId(id string) (*entities.Movie, error) {
 	searchRequest, err := s.Repo.GetMovieId(id)
 	if err != nil {
-		return searchRequest, errors.New("movie not found")
+		return nil, err
 	}
-	return searchRequest, err
+	return searchRequest, nil
 }

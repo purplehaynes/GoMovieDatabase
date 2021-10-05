@@ -84,6 +84,40 @@
 				"James Franco"
 			],
 			"Rating": 7.3
+		},
+		{
+			"Id": "406e4805-e73a-4882-bec7-7c7f5e15711d",
+			"Title": "Shrek",
+			"Genre": [
+				"Action",
+				"Comedy",
+				"Animated"
+			],
+			"Description": "A mean lord exiles fairytale creatures to the swamp of a grumpy ogre, who must go on a quest and rescue a princess for the lord in order to get his land back.",
+			"Director": "Andrew Adamson",
+			"Actors": [
+				"Mike Myers",
+				"Eddie Murphy",
+				"Cameron Diaz",
+				"John Lithgow"
+			],
+			"Rating": 7.9
+		},
+		{
+			"Id": "64d6041a-5bad-42d6-ad95-0235679440bb",
+			"Title": "Sling Blade",
+			"Genre": [
+				"Drama"
+			],
+			"Description": "Karl Childers, a simple man hospitalized since his childhood murder of his mother and her lover, is released to start a new life in a small town.",
+			"Director": "Billy Bob Thornton",
+			"Actors": [
+				"Billy Bob Thornton",
+				"Dwight Yoakam",
+				"J.T. Walsh",
+				"John Ritter"
+			],
+			"Rating": 8
 		}
 	]
 }
