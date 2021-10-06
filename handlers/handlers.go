@@ -79,7 +79,7 @@ func (mh MovieHandler) GetByMovieId(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	movie, err := json.MarshalIndent(getID, "", "	")
+	movieInfo, err := json.MarshalIndent(getID, "", "	")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
@@ -87,7 +87,7 @@ func (mh MovieHandler) GetByMovieId(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	_, _ = w.Write(movie)
+	_, _ = w.Write(movieInfo)
 }
 
 
