@@ -4,7 +4,6 @@ import (
 	"GoMovieDB/entities"
 	repo "GoMovieDB/repository"
 	"errors"
-
 	"github.com/google/uuid"
 )
 
@@ -46,3 +45,11 @@ func (s Service) GetByMovieId(id string) (*entities.Movie, error) {
 	}
 	return searchRequest, nil
 }
+
+func (s Service) DeleteMovieId(id string) error {
+	err := s.Repo.DeleteMovieId(id)
+	if err != nil {
+		return errors.New("movie does not exist")
+	}
+	return err
+} 

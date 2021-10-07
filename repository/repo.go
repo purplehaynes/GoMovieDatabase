@@ -88,41 +88,37 @@ func (r Repo) GetMovieId(id string) (*entities.Movie, error) {
 		if v.Id == id {
 			return &v, nil
 		}
-
 	}
-
 	return nil, errors.New("movie not found")
-
 }
 
+func (r Repo) DeleteMovieId(id string) error {
+	mv := MVStruct{}
 
+	file, err := ioutil.ReadFile(r.Filename)
+	if err != nil {
+		return err
+	}
 
+	err = json.Unmarshal(file, &mv)
+	if err != nil {
+		return err
+	}
 
-	// output, err := ioutil.ReadFile("moviedb.json")
-	// if err != nil {
-	// 	fmt.Println(err)
-	// }
+	for i, v := range mv.Movies {
+		if id == v.Id {
+			mv.Movies = append(mv.Movies[:i], mv.Movies[i + 1:]...)
+		}
+	}
 
-	// film.SetId()
+	output, err := json.MarshalIndent(mv.Movies, "", "	")
+	if err != nil {
+		return err
+	}
 
-	// db := MVStruct{}
-	// err = json.Unmarshal(output, &db)
-	// if err != nil {
-	// 	fmt.Println(err)
-	// }
-
-	// db.Movies = append(db.Movies, film)
-
-
-	// input, err := json.MarshalIndent(db, "", "	")
-	// if err != nil {
-	// 	fmt.Println(err)
-	// }
-
-	// err = ioutil.WriteFile("moviedb.json", input, 0644)
-
-	// return db, err
-
-
-
-
+	err = ioutil.WriteFile(r.Filename, output, 0644)
+	if err != nil {
+		return err
+	}
+	return nil
+}

@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-
 	"github.com/gorilla/mux"
 )
 
@@ -19,7 +18,6 @@ func NewMovieHandler(s service.Service) MovieHandler {
 		Svc: s,
 	}
 }
-
 
 func (mh MovieHandler) CreateMovie(w http.ResponseWriter, r *http.Request) {
 	mv := entities.Movie{}
@@ -36,6 +34,7 @@ func (mh MovieHandler) CreateMovie(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 		case "invalid rating":
 			http.Error(w, err.Error(), http.StatusNotAcceptable)
+			return
 		}
 	}
 
@@ -90,17 +89,19 @@ func (mh MovieHandler) GetByMovieId(w http.ResponseWriter, r *http.Request) {
 	_, _ = w.Write(movieInfo)
 }
 
+func (mh MovieHandler) DeleteMovieId(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id := vars["Id"]
 
+	err := mh.Svc.DeleteMovieId(id)
+	if err != nil {
+		switch err.Error() {
+		case "movie does not exist":
+			http.Error(w, err.Error(), http.StatusNotFound)
+			return
+		}
+	}
 
-
-
-
-
-// 	mv := entities.Movie{}
-	
-// 	getRequest, _ := json.Marshal(mv.Id)
-
-// 	w.Header().Set("Content-Type", "application/json")
-// 	w.WriteHeader(http.StatusOK)
-// 	w.Write(getRequest)
-// }
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+}
