@@ -41,7 +41,6 @@ func (mh MovieHandler) CreateMovie(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 
-
 }
 
 func (mh MovieHandler) GetAllMovies(w http.ResponseWriter, r *http.Request) {
@@ -54,15 +53,10 @@ func (mh MovieHandler) GetAllMovies(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	w.Write(readRequest)
-}
-
-type ErrorResponse struct {
-	Error string `json:"Error"`
 }
 
 func (mh MovieHandler) GetByMovieId(w http.ResponseWriter, r *http.Request) {
