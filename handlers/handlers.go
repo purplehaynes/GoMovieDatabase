@@ -117,7 +117,7 @@ func (mh MovieHandler) UpdateMovieInfo(w http.ResponseWriter, r *http.Request) {
 	err = mh.Svc.UpdateMovieInfo(id, mv)
 	if err != nil {
 		switch err.Error() {
-		case "movie not found":
+		case "id is mismatched":
 			http.Error(w, err.Error(), http.StatusNotFound)
 			return
 		}

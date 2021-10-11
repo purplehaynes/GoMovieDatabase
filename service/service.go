@@ -55,6 +55,9 @@ func (s Service) DeleteMovieId(id string) error {
 }
 
 func (s Service) UpdateMovieInfo(id string, film entities.Movie) error {
+	if id != film.Id {
+		return errors.New("id is mismatched")
+	}
 	err := s.Repo.UpdateMovieInfo(id, film)
 	if err != nil {
 		return err
