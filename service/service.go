@@ -52,4 +52,12 @@ func (s Service) DeleteMovieId(id string) error {
 		return errors.New("movie does not exist")
 	}
 	return err
-} 
+}
+
+func (s Service) UpdateMovieInfo(id string, film entities.Movie) error {
+	err := s.Repo.UpdateMovieInfo(id, film)
+	if err != nil {
+		return err
+	}
+	return nil
+}

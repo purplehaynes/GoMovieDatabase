@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+
 	"github.com/gorilla/mux"
 )
 
@@ -20,6 +21,7 @@ func NewMovieHandler(s service.Service) MovieHandler {
 }
 
 func (mh MovieHandler) CreateMovie(w http.ResponseWriter, r *http.Request) {
+
 	mv := entities.Movie{}
 
 	err := json.NewDecoder(r.Body).Decode(&mv)
@@ -30,7 +32,7 @@ func (mh MovieHandler) CreateMovie(w http.ResponseWriter, r *http.Request) {
 	err = mh.Svc.CreateNewMovie(mv)
 	if err != nil {
 		switch err.Error() {
-		case "movie already exists":
+		case "movie already exists in database":
 			http.Error(w, err.Error(), http.StatusBadRequest)
 		case "invalid rating":
 			http.Error(w, err.Error(), http.StatusNotAcceptable)
@@ -44,6 +46,7 @@ func (mh MovieHandler) CreateMovie(w http.ResponseWriter, r *http.Request) {
 }
 
 func (mh MovieHandler) GetAllMovies(w http.ResponseWriter, r *http.Request) {
+
 	readDB, err := mh.Svc.ReadAll()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -91,6 +94,30 @@ func (mh MovieHandler) DeleteMovieId(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		switch err.Error() {
 		case "movie does not exist":
+			http.Error(w, err.Error(), http.StatusNotFound)
+			return
+		}
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+}
+
+func (mh MovieHandler) UpdateMovieInfo(w http.ResponseWriter, r *http.Request) {
+	mv := entities.Movie{}
+	vars := mux.Vars(r)
+	id := vars["Id"]
+
+	err := json.NewDecoder(r.Body).Decode(&mv)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	err = mh.Svc.UpdateMovieInfo(id, mv)
+	if err != nil {
+		switch err.Error() {
+		case "movie not found":
 			http.Error(w, err.Error(), http.StatusNotFound)
 			return
 		}

@@ -38,7 +38,7 @@ func (r Repo) CreateNewMovie(film entities.Movie) error {
 
 	for _, v := range mv.Movies { 
 		if v.Title == film.Title {
-		return errors.New("movie already exists")			
+		return errors.New("movie already exists in database")			
 		}
 	}
 
@@ -112,6 +112,37 @@ func (r Repo) DeleteMovieId(id string) error {
 	}
 
 	output, err := json.MarshalIndent(mv.Movies, "", "	")
+	if err != nil {
+		return err
+	}
+
+	err = ioutil.WriteFile(r.Filename, output, 0644)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (r Repo) UpdateMovieInfo(id string, film entities.Movie) error {
+	mv := MVStruct{}
+
+	file, err := ioutil.ReadFile(r.Filename)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(file, &mv)
+	if err != nil {
+		return err
+	}
+
+	for i, v := range mv.Movies {
+		if v.Id == id {
+			mv.Movies[i] = film
+		}
+	}
+
+	output, err := json.MarshalIndent(mv, "", "	")
 	if err != nil {
 		return err
 	}
