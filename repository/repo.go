@@ -136,6 +136,8 @@ func (r Repo) UpdateMovieInfo(id string, film entities.Movie) error {
 		return err
 	}
 
+	// ranges through our existing movieDB. In Postman, if the Id in the DB matches the info 
+	// being sent back, anything new in the fields (i) of the movieDB will be updated
 	for i, v := range mv.Movies {
 		if v.Id == id {
 			mv.Movies[i] = film
