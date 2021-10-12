@@ -111,7 +111,7 @@ func (r Repo) DeleteMovieId(id string) error {
 		}
 	}
 
-	output, err := json.MarshalIndent(mv.Movies, "", "	")
+	output, err := json.MarshalIndent(mv, "", "	")
 	if err != nil {
 		return err
 	}
