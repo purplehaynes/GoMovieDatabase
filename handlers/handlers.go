@@ -1,20 +1,28 @@
 package handlers
 
 import (
+	"GoMovieDB/repository"
 	"GoMovieDB/entities"
-	"GoMovieDB/service"
+	//"GoMovieDB/service"
 	"encoding/json"
 	"fmt"
 	"net/http"
-
 	"github.com/gorilla/mux"
 )
 
-type MovieHandler struct {
-	Svc service.Service
+type Service interface {
+	CreateNewMovie(film entities.Movie) error
+	ReadAll() (*repo.MVStruct, error)
+	GetByMovieId(id string) (*entities.Movie, error)
+	DeleteMovieId(id string) error
+	UpdateMovieInfo(id string, film entities.Movie) error
 }
 
-func NewMovieHandler(s service.Service) MovieHandler {
+type MovieHandler struct {
+	Svc Service
+}
+
+func NewMovieHandler(s Service) MovieHandler {
 	return MovieHandler {
 		Svc: s,
 	}
@@ -34,6 +42,7 @@ func (mh MovieHandler) CreateMovie(w http.ResponseWriter, r *http.Request) {
 		switch err.Error() {
 		case "movie already exists in database":
 			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
 		case "invalid rating":
 			http.Error(w, err.Error(), http.StatusNotAcceptable)
 			return
@@ -45,11 +54,12 @@ func (mh MovieHandler) CreateMovie(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func (mh MovieHandler) GetAllMovies(w http.ResponseWriter, r *http.Request) {
+func (mh MovieHandler) ReadAll(w http.ResponseWriter, r *http.Request) {
 
 	readDB, err := mh.Svc.ReadAll()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
 	}
 
 	readRequest, err := json.MarshalIndent(readDB, "", "	")

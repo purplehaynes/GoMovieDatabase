@@ -56,17 +56,17 @@ func (r Repo) CreateNewMovie(film entities.Movie) error {
 	return nil
 }
 
-func (r Repo) ReadAll() (MVStruct, error) {
+func (r Repo) ReadAll() (*MVStruct, error) {
 	mv := MVStruct{}
 
 	file, err := ioutil.ReadFile(r.Filename)
 	if err != nil {
-		return mv, errors.New("data field empty")
+		return nil, errors.New("data field empty")
 	}	
 
 	err = json.Unmarshal(file, &mv)
 
-	return mv, err
+	return &mv, err
 
 }
 

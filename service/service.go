@@ -2,16 +2,24 @@ package service
 
 import (
 	"GoMovieDB/entities"
-	repo "GoMovieDB/repository"
+	"GoMovieDB/repository"
 	"errors"
 	"github.com/google/uuid"
 )
 
-type Service struct {
-	Repo repo.Repo
+type Repo interface {
+	CreateNewMovie(film entities.Movie) error
+	ReadAll() (*repo.MVStruct, error)
+	GetMovieId(id string) (*entities.Movie, error)
+	DeleteMovieId(id string) error
+	UpdateMovieInfo(id string, film entities.Movie) error
 }
 
-func NewService(r repo.Repo) Service {
+type Service struct {
+	Repo Repo
+}
+
+func NewService(r Repo) Service {
 	return Service{
 		Repo: r,
 	}
@@ -29,10 +37,10 @@ func (s Service) CreateNewMovie(film entities.Movie) error {
 	return nil
 }
 
-func (s Service) ReadAll() (repo.MVStruct, error) {
+func (s Service) ReadAll() (*repo.MVStruct, error) {
 	view, err := s.Repo.ReadAll()
 	if err != nil {
-		return view, errors.New("cannot locate data")
+		return nil, errors.New("cannot locate data")
 	}
 	return view, nil
 }
@@ -58,6 +66,7 @@ func (s Service) UpdateMovieInfo(id string, film entities.Movie) error {
 	if id != film.Id {
 		return errors.New("id is mismatched")
 	}
+
 	err := s.Repo.UpdateMovieInfo(id, film)
 	if err != nil {
 		return err

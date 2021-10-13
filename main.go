@@ -2,7 +2,7 @@ package main
 
 import (
 	"GoMovieDB/handlers"
-	repo "GoMovieDB/repository"
+	"GoMovieDB/repository"
 	"GoMovieDB/service"
 	"log"
 	"net/http"
