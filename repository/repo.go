@@ -4,7 +4,6 @@ import (
 	"GoMovieDB/entities"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io/ioutil"
 )
 
@@ -62,12 +61,11 @@ func (r Repo) ReadAll() (*MVStruct, error) {
 	file, err := ioutil.ReadFile(r.Filename)
 	if err != nil {
 		return nil, errors.New("data field empty")
-	}	
+	}
 
 	err = json.Unmarshal(file, &mv)
 
-	return &mv, err
-
+	return &mv, nil
 }
 
 func (r Repo) GetMovieId(id string) (*entities.Movie, error) {
@@ -76,7 +74,7 @@ func (r Repo) GetMovieId(id string) (*entities.Movie, error) {
 
 	file, err := ioutil.ReadFile(r.Filename)
 	if err != nil {
-		fmt.Println(err)
+		return nil, err
 	}
 
 	err = json.Unmarshal(file, &mv)
@@ -89,6 +87,7 @@ func (r Repo) GetMovieId(id string) (*entities.Movie, error) {
 			return &v, nil
 		}
 	}
+
 	return nil, errors.New("movie not found")
 }
 

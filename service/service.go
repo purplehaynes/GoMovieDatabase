@@ -45,7 +45,6 @@ func (s Service) ReadAll() (*repo.MVStruct, error) {
 	return view, nil
 }
 
-
 func (s Service) GetByMovieId(id string) (*entities.Movie, error) {
 	searchRequest, err := s.Repo.GetMovieId(id)
 	if err != nil {
