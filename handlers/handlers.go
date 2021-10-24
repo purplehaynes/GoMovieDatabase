@@ -1,9 +1,7 @@
 package handlers
 
 import (
-	"GoMovieDB/repository"
 	"GoMovieDB/entities"
-	//"GoMovieDB/service"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -12,7 +10,7 @@ import (
 
 type Service interface {
 	CreateNewMovie(film entities.Movie) error
-	ReadAll() (*repo.MVStruct, error)
+	ReadAll() (*entities.MVStruct, error)
 	GetByMovieId(id string) (*entities.Movie, error)
 	DeleteMovieId(id string) error
 	UpdateMovieInfo(id string, film entities.Movie) error

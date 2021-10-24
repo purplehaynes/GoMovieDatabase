@@ -13,9 +13,8 @@ func main() {
 	fn := "moviedb.json"
 
 	ext := filepath.Ext(fn)
-
 	if ext != ".json" {
-		log.Fatalln("File extension invalid")
+		log.Fatalln("File extension is invalid")
 	}
 
 	r := repo.NewRepository(fn)

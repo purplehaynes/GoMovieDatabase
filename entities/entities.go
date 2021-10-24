@@ -14,6 +14,10 @@ type Movie struct {
 	Rating 			float32
 }
 
+type MVStruct struct {
+	Movies []Movie
+}
+
 func (mv *Movie) SetId() {
 	mv.Id = uuid.New().String()
 }

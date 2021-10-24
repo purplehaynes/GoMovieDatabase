@@ -7,9 +7,9 @@ import (
 	"io/ioutil"
 )
 
-type MVStruct struct {
-	Movies []entities.Movie
-}
+// type MVStruct struct {
+// 	Movies []entities.Movie
+// }
 
 type Repo struct {
 	Filename string
@@ -23,7 +23,7 @@ func NewRepository(fn string) Repo {
 
 func (r Repo) CreateNewMovie(film entities.Movie) error {
 
-	mv := MVStruct{}
+	mv := entities.MVStruct{}
 
 	output, err := ioutil.ReadFile(r.Filename)
 	if err != nil {
@@ -55,8 +55,8 @@ func (r Repo) CreateNewMovie(film entities.Movie) error {
 	return nil
 }
 
-func (r Repo) ReadAll() (*MVStruct, error) {
-	mv := MVStruct{}
+func (r Repo) ReadAll() (*entities.MVStruct, error) {
+	mv := entities.MVStruct{}
 
 	file, err := ioutil.ReadFile(r.Filename)
 	if err != nil {
@@ -70,7 +70,7 @@ func (r Repo) ReadAll() (*MVStruct, error) {
 
 func (r Repo) GetMovieId(id string) (*entities.Movie, error) {
 
-	mv := MVStruct{}
+	mv := entities.MVStruct{}
 
 	file, err := ioutil.ReadFile(r.Filename)
 	if err != nil {
@@ -92,7 +92,7 @@ func (r Repo) GetMovieId(id string) (*entities.Movie, error) {
 }
 
 func (r Repo) DeleteMovieId(id string) error {
-	mv := MVStruct{}
+	mv := entities.MVStruct{}
 
 	file, err := ioutil.ReadFile(r.Filename)
 	if err != nil {
@@ -123,7 +123,7 @@ func (r Repo) DeleteMovieId(id string) error {
 }
 
 func (r Repo) UpdateMovieInfo(id string, film entities.Movie) error {
-	mv := MVStruct{}
+	mv := entities.MVStruct{}
 
 	file, err := ioutil.ReadFile(r.Filename)
 	if err != nil {

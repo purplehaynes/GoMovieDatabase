@@ -2,14 +2,13 @@ package service
 
 import (
 	"GoMovieDB/entities"
-	"GoMovieDB/repository"
 	"errors"
 	"github.com/google/uuid"
 )
 
 type Repo interface {
 	CreateNewMovie(film entities.Movie) error
-	ReadAll() (*repo.MVStruct, error)
+	ReadAll() (*entities.MVStruct, error)
 	GetMovieId(id string) (*entities.Movie, error)
 	DeleteMovieId(id string) error
 	UpdateMovieInfo(id string, film entities.Movie) error
@@ -37,7 +36,7 @@ func (s Service) CreateNewMovie(film entities.Movie) error {
 	return nil
 }
 
-func (s Service) ReadAll() (*repo.MVStruct, error) {
+func (s Service) ReadAll() (*entities.MVStruct, error) {
 	view, err := s.Repo.ReadAll()
 	if err != nil {
 		return nil, errors.New("cannot locate data")
